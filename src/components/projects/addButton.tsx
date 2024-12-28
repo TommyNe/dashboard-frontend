@@ -2,16 +2,15 @@
 import { Button, Modal } from 'flowbite-react'
 import { useState } from 'react'
 import { createProject } from '@/api/fetches/createProject'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { redirect } from 'next/navigation'
+import { useMutation } from '@tanstack/react-query'
 
 export function AddButton() {
-  const [openModal, setOpenModal] = useState(true)
+  const [openModal, setOpenModal] = useState(false)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const handleClick = () => {
     setOpenModal(true)
   }
-
-  const queryClient = useQueryClient()
 
   const { mutateAsync } = useMutation({
     mutationKey: ['projects'],
@@ -25,14 +24,13 @@ export function AddButton() {
     },
     onSuccess: (data) => {
       console.log('onSuccess', data)
-      queryClient.invalidateQueries()
-      redirect('/dashboard/projects')
+      window.location.reload()
     },
   })
   const handleSave = () => {
     const data = {
-      title: 'test',
-      description: 'test',
+      title: title,
+      description: description,
     }
     mutateAsync(data)
     setOpenModal(false)
@@ -50,14 +48,16 @@ export function AddButton() {
           <div className="space-y-6">
             <div className="space-y-2">
               <label htmlFor="name" className="block text-sm font-medium">
-                Name
+                Title
               </label>
               <input
                 type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 name="name"
                 id="name"
                 autoComplete="given-name"
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full px-3 py-2 border border-gray-300 text-black rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
             <div className="space-y-2">
@@ -71,8 +71,9 @@ export function AddButton() {
                 id="description"
                 name="description"
                 rows={3}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                defaultValue={''}
+                className="block w-full px-3 py-2 border border-gray-300 text-black rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>

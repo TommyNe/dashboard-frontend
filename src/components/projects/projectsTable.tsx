@@ -1,6 +1,7 @@
 'use client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getProjects } from '@/api/fetches/getProjects'
+import { deleteProject } from '@/api/fetches/deleteProject'
 
 interface Project {
   fetch: {
@@ -12,11 +13,24 @@ interface Project {
 }
 
 export default function ProjectsTable({ fetch }: Project) {
+  const queryClient = useQueryClient()
   const { data: products } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects,
     initialData: fetch,
   })
+
+  const { mutate } = useMutation({
+    mutationFn: (id: number) => deleteProject(id),
+    onSuccess: () => {
+      window.location.reload()
+    },
+  })
+
+  const handleDelete = async (id: number) => {
+    mutate(id)
+  }
+
   return (
     <table className="table-auto w-full">
       <thead>
@@ -37,7 +51,10 @@ export default function ProjectsTable({ fetch }: Project) {
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Edit
               </button>
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => handleDelete(product.id)}
+              >
                 Delete
               </button>
             </td>
