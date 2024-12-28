@@ -2,17 +2,39 @@
 import { Button, Modal } from 'flowbite-react'
 import { useState } from 'react'
 import { createProject } from '@/api/fetches/createProject'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 export function AddButton() {
   const [openModal, setOpenModal] = useState(true)
   const handleClick = () => {
     setOpenModal(true)
   }
+
+  const queryClient = useQueryClient()
+
+  const { mutateAsync } = useMutation({
+    mutationKey: ['projects'],
+    mutationFn: (project: { title: string; description: string }) =>
+      createProject(project),
+    onMutate: (project) => {
+      console.log('onMutate', project)
+    },
+    onError: (error) => {
+      console.log('onError', error)
+    },
+    onSuccess: (data) => {
+      console.log('onSuccess', data)
+      queryClient.invalidateQueries()
+      redirect('/dashboard/projects')
+    },
+  })
   const handleSave = () => {
-    createProject({
-      name: 'test project',
-      description: 'test description',
-    })
+    const data = {
+      title: 'test',
+      description: 'test',
+    }
+    mutateAsync(data)
     setOpenModal(false)
   }
   return (
