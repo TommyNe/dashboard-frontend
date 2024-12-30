@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import ChevronRight from '@/components/icons/chevron-right'
 import ChevronLeft from '@/components/icons/chevron-left'
 import Days from '@/components/calendar/days'
+import { de } from 'date-fns/locale'
 
 interface HeaderProps {
   getPrevMonth: (event: React.MouseEvent<SVGSVGElement>) => void
@@ -20,7 +21,8 @@ export default function Header({
       <div className="flex items-center justify-between">
         <p className="font-semibold text-xl text-white text-shadow shadow-black">
           {' '}
-          {format(firstDayOfMonth, 'MMMM yyyy')}{' '}
+          {format(firstDayOfMonth, 'MMMM yyyy', { locale: de })}
+          {''}
         </p>
         <div className="flex items-center justify-evenly gap-6 sm:gap-12 text-white text-shadow shadow-black">
           <ChevronLeft
