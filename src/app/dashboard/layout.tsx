@@ -5,6 +5,8 @@ import { Providers } from '../providers'
 import { Flowbite } from 'flowbite-react'
 import { NavbarElement } from '@/components/navbarElement'
 import { SidebarElement } from '@/components/sidebarElement'
+import { useState } from 'react'
+import FooterComponent from '@/components/dashboard/footerComponent'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -21,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <html lang="en">
       <body
@@ -32,6 +35,7 @@ export default function RootLayout({
           <div className="p-4 sm:ml-64">
             <Providers>{children}</Providers>
           </div>
+          <FooterComponent />
         </Flowbite>
       </body>
     </html>
