@@ -34,7 +34,7 @@ export default function Calendar() {
     setCurrMonth(format(firstDayOfNextMonth, 'MMM-yyyy'))
   }
   return (
-    <div className={'w-1/3 bg-black opacity-40 p-5'}>
+    <div className={'w-2/3 bg-black opacity-40 p-5'}>
       <Header
         firstDayOfMonth={firstDayOfMonth}
         getNextMonth={getNextMonth}

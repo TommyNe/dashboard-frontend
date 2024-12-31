@@ -1,6 +1,7 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
 import { getNews } from '@/api/fetches/getNews'
+import { format, parse } from 'date-fns'
 
 interface Props {
   fetch: {
@@ -26,7 +27,7 @@ export default function NewsItems({ fetch }: Props) {
     <div className={'text-white text-shadow shadow-black flex flex-col gap-3'}>
       {news.news.slice(0, 2).map((item: any) => (
         <div key={item.externalId}>
-          <p className={'text-sm'}>{item.date}</p>
+          <p className={'text-sm'}>{format(item.date, 'dd MMMM yyyy')}</p>
           <p className={'text-xl'}>{item.firstSentence}</p>
         </div>
       ))}
