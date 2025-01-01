@@ -2,6 +2,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getProjects } from '@/api/fetches/getProjects'
 import { deleteProject } from '@/api/fetches/deleteProject'
+import Trash from '@/components/icons/trash'
+import Pencil from '@/components/icons/pencil'
+import { Table } from 'flowbite-react'
 
 interface Project {
   fetch: {
@@ -48,11 +51,9 @@ export default function ProjectsTable({ fetch }: Project) {
             <td className="">{product.description}</td>
             <td className="">{product.created_at}</td>
             <td className=" text-right">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Edit
-              </button>
+              <button className="text-blue-500">Edit</button>
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="text-red-600"
                 onClick={() => handleDelete(product.id)}
               >
                 Delete

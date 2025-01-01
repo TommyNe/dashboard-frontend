@@ -4,6 +4,8 @@ import { getEvents } from '@/api/fetches/getEvents'
 import { deleteEvent } from '@/api/fetches/deleteEvents'
 import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
+import Trash from '@/components/icons/trash'
+import Pencil from '@/components/icons/pencil'
 
 interface Project {
   fetch: {
@@ -60,15 +62,15 @@ export default function EventsTable({ fetch }: Project) {
             <td className="">
               {format(event.date, 'dd.MM.yyyy hh:mm', { locale: de })}
             </td>
-            <td className=" text-right">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Edit
+            <td className=" text-right flex gap-3">
+              <button className="text-blue-500">
+                <Pencil />
               </button>
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="text-red-600"
                 onClick={() => handleDelete(event.id)}
               >
-                Delete
+                <Trash />
               </button>
             </td>
           </tr>

@@ -5,6 +5,7 @@ import { Providers } from './providers'
 import { Flowbite } from 'flowbite-react'
 import { NavbarElement } from '@/components/navbarElement'
 import { SidebarElement } from '@/components/sidebarElement'
+import { useEffect } from 'react'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -21,6 +22,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      window.location.reload()
+    }, 3600000) // 3600000 milliseconds = 1 hour
+
+    return () => clearInterval(interval) // Cleanup interval on component unmount
+  }, [])
+
   return (
     <html lang="en">
       <body
